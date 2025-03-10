@@ -4,19 +4,27 @@ export function useMonthYearPicker(initialDate = new Date()) {
   const [date, setDate] = useState(initialDate)
 
   const setMonth = (month: number) => {
-    setDate(new Date(date.getFullYear(), month))
+    const newDate = new Date(date)
+    newDate.setMonth(month)
+    setDate(newDate)
   }
 
   const setYear = (year: number) => {
-    setDate(new Date(year, date.getMonth()))
+    const newDate = new Date(date)
+    newDate.setFullYear(year)
+    setDate(newDate)
   }
 
   const nextYear = () => {
-    setDate(new Date(date.getFullYear() + 1, date.getMonth()))
+    const newDate = new Date(date)
+    newDate.setFullYear(date.getFullYear() + 1)
+    setDate(newDate)
   }
 
   const prevYear = () => {
-    setDate(new Date(date.getFullYear() - 1, date.getMonth()))
+    const newDate = new Date(date)
+    newDate.setFullYear(date.getFullYear() - 1)
+    setDate(newDate)
   }
 
   return {

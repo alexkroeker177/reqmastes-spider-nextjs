@@ -5,7 +5,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { User } from '../types';
 
-const ACCOUNTS_FILE = path.join(process.cwd(), 'app/api/auth/accounts.json');
+const ACCOUNTS_FILE = path.join(process.cwd(), 'src/app/api/auth/accounts.json');
 
 export async function POST(request: Request) {
   try {

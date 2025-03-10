@@ -24,6 +24,83 @@
     --input: 0 0% 89.8%;
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
+
+    /* Chart Colors - Extended Palette (Darker) */
+    --chart-1: 210 85% 40%;   /* Darker Blue */
+    --chart-2: 145 85% 35%;   /* Darker Green */
+    --chart-3: 0 85% 40%;     /* Darker Red */
+    --chart-4: 280 85% 35%;   /* Darker Purple */
+    --chart-5: 45 85% 40%;    /* Darker Orange */
+    --chart-6: 170 85% 35%;   /* Darker Teal */
+    --chart-7: 330 85% 40%;   /* Darker Pink */
+    --chart-8: 240 85% 35%;   /* Darker Indigo */
+    --chart-9: 90 85% 35%;    /* Darker Lime */
+    --chart-10: 315 85% 40%;  /* Darker Magenta */
+    --chart-11: 200 85% 40%;  /* Darker Light Blue */
+    --chart-12: 30 85% 40%;   /* Darker Golden */
+    --chart-13: 260 85% 35%;  /* Darker Violet */
+    --chart-14: 120 85% 35%;  /* Darker Emerald */
+    --chart-15: 345 85% 40%;  /* Darker Rose */
+    --chart-16: 225 85% 35%;  /* Darker Royal Blue */
+    --chart-17: 60 85% 40%;   /* Darker Yellow */
+    --chart-18: 290 85% 35%;  /* Darker Lavender */
+    --chart-19: 180 85% 35%;  /* Darker Cyan */
+    --chart-20: 15 85% 40%;   /* Darker Coral */
+    --chart-21: 250 85% 35%;  /* Darker Purple Blue */
+    --chart-22: 75 85% 35%;   /* Darker Chartreuse */
+    --chart-23: 300 85% 40%;  /* Darker Hot Pink */
+    --chart-24: 195 85% 35%;  /* Darker Sky Blue */
+    --chart-25: 45 85% 35%;   /* Darker Orange Yellow */
+  }
+
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 83.1%;
+    --radius: 0.5rem;
+
+    /* Chart Colors - Extended Palette (Dark mode - slightly lighter but still rich) */
+    --chart-1: 210 70% 55%;
+    --chart-2: 145 70% 50%;
+    --chart-3: 0 70% 55%;
+    --chart-4: 280 70% 50%;
+    --chart-5: 45 70% 55%;
+    --chart-6: 170 70% 50%;
+    --chart-7: 330 70% 55%;
+    --chart-8: 240 70% 50%;
+    --chart-9: 90 70% 50%;
+    --chart-10: 315 70% 55%;
+    --chart-11: 200 70% 55%;
+    --chart-12: 30 70% 55%;
+    --chart-13: 260 70% 50%;
+    --chart-14: 120 70% 50%;
+    --chart-15: 345 70% 55%;
+    --chart-16: 225 70% 50%;
+    --chart-17: 60 70% 55%;
+    --chart-18: 290 70% 50%;
+    --chart-19: 180 70% 50%;
+    --chart-20: 15 70% 55%;
+    --chart-21: 250 70% 50%;
+    --chart-22: 75 70% 50%;
+    --chart-23: 300 70% 55%;
+    --chart-24: 195 70% 50%;
+    --chart-25: 45 70% 50%;
   }
 }
 

@@ -1,73 +1,34 @@
 import { NextResponse } from 'next/server'
-import { cookies } from 'next/headers'
-import { PersonioProject } from '@/types/personio'
+import { PersonioClient } from '@/lib/personio'
+
+// Initialize Personio client with environment variables
+const personioClient = new PersonioClient({
+  clientId: process.env.PERSONIO_CLIENT_ID!,
+  clientSecret: process.env.PERSONIO_CLIENT_SECRET!,
+});
 
 export async function GET(request: Request) {
   try {
-    // Get the Personio access token from cookies
-    const cookieStore = await cookies()
-    const personioToken = cookieStore.get('personio_access_token')
-
-    if (!personioToken?.value) {
-      // Redirect to auth endpoint
-      return NextResponse.redirect(new URL('/api/auth/personio', request.url))
-    }
-
     // Get query parameters
-    const activeOnly = 'true'
+    const { searchParams } = new URL(request.url)
+    const activeOnly = searchParams.get('activeOnly') !== 'false' // defaults to true if not specified
 
-    const response = await fetch('https://api.personio.de/v1/company/attendances/projects', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${personioToken.value}`
-      },
-    })
+    // Get projects using the new PersonioClient
+    const projects = await personioClient.getProjects(activeOnly);
 
-    // If token is invalid or expired
-    if (response.status === 401) {
-      cookieStore.delete('personio_access_token')
-      return NextResponse.redirect(new URL('/api/auth/personio', request.url))
-    }
+    // Transform the response to match the existing format
+    const transformedProjects = projects.map(project => ({
+      id: project.ID,
+      name: project.Name,
+      active: project.Active,
+      createdAt: project.CreatedAt,
+      updatedAt: project.UpdatedAt,
+    }));
 
-    const data = await response.json()
-
-    if (!data.success) {
-      throw new Error(data.error?.message || 'Failed to fetch projects')
-    }
-
-    const projects = data.data
-      .map((project: PersonioProject) => {
-        // Validate required fields
-        if (!project.attributes.name) {
-          throw new Error("Missing field 'name' in response")
-        }
-        if (!project.attributes.created_at) {
-          throw new Error("Missing field 'created_at' in response")
-        }
-        if (!project.attributes.updated_at) {
-          throw new Error("Missing field 'updated_at' in response")
-        }
-
-        const projectData = {
-          id: Number(project.id),
-          name: project.attributes.name,
-          active: Boolean(project.attributes.active),
-          createdAt: Math.floor(new Date(project.attributes.created_at).getTime() / 1000),
-          updatedAt: Math.floor(new Date(project.attributes.updated_at).getTime() / 1000),
-        }
-
-        // Filter out inactive projects if activeOnly is true
-        if (activeOnly && !projectData.active) {
-          return null
-        }
-
-        return projectData
-      })
-      .filter(Boolean) // Remove null values
-
-    return NextResponse.json(projects)
+    return NextResponse.json(transformedProjects)
   } catch (error) {
+    console.error('Error fetching projects:', error);
+    
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to fetch projects' },
       { status: 500 }

@@ -1,23 +1,22 @@
 import { NextResponse } from 'next/server'
-import { personioRequest } from '@/lib/personio'
-import { AttendanceResponse, Attendance } from '@/types/personio'
+import { PersonioClient } from '@/lib/personio'
 import { cookies } from 'next/headers'
+
+// Initialize Personio client with environment variables
+const personioClient = new PersonioClient({
+  clientId: process.env.PERSONIO_CLIENT_ID!,
+  clientSecret: process.env.PERSONIO_CLIENT_SECRET!,
+});
 
 export async function GET(
   request: Request,
   { params }: { params: { projectId: string } }
 ) {
   try {
-    const cookieStore = await cookies()
-    const personioToken = cookieStore.get('personio_access_token')
-
-    if (!personioToken?.value) {
-        return NextResponse.redirect(new URL('/api/auth/personio', request.url))
-    }
-
     const { searchParams } = new URL(request.url)
     const startDate = searchParams.get('startDate')
     const endDate = searchParams.get('endDate')
+    const confirmed = searchParams.get('confirmed') === 'true'
 
     // Validate required parameters
     if (!startDate || !endDate) {
@@ -36,40 +35,35 @@ export async function GET(
       )
     }
 
-    const attendances = await personioRequest<AttendanceResponse[]>('v1/company/attendances', {
-      params: {
-        project_id: params.projectId,
-        start_date: startDate,
-        end_date: endDate,
-      },
-      headers: {
-        'Authorization': `Bearer ${personioToken.value}`,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
+    // Get attendances using the new PersonioClient
+    const attendances = await personioClient.getAttendances(
+      parseInt(params.projectId),
+      startDate,
+      endDate,
+      confirmed
+    );
 
-    // Transform the response data
-    const transformedAttendances: Attendance[] = attendances.map(attendance => ({
-      id: attendance.id,
-      date: attendance.attributes.date,
-      duration: attendance.attributes.duration,
-      breakDuration: attendance.attributes.break_duration,
-      projectId: attendance.attributes.project_id,
-      employeeId: attendance.attributes.employee_id,
-      comment: attendance.attributes.comment,
-    }))
+    // Get employees to include names in the response
+    const employees = await personioClient.getEmployees();
+
+    // Transform the response data with employee names
+    const transformedAttendances = await Promise.all(attendances.map(async (attendance) => ({
+      id: attendance.Employee, // Using Employee ID as the attendance ID
+      date: attendance.Date,
+      startTime: attendance.StartTime,
+      endTime: attendance.EndTime,
+      duration: attendance.DurationNet,
+      break: attendance.Break,
+      projectId: attendance.Project,
+      employeeId: attendance.Employee,
+      employeeName: await personioClient.getEmployeeNameFromID(attendance.Employee, employees),
+      comment: attendance.Comment,
+    })));
 
     return NextResponse.json(transformedAttendances)
   } catch (error) {
-    // Check for authentication errors
-    if (error instanceof Error && error.message.includes('401')) {
-      return NextResponse.json(
-        { error: 'Personio authentication expired' },
-        { status: 401 }
-      )
-    }
-
+    console.error('Error fetching attendances:', error);
+    
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Failed to fetch attendances' },
       { status: 500 }

@@ -1,9 +1,10 @@
 "use client"
 
-import Link from 'next/link'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { useAuth } from '@/app/context/auth'
+import { useRouter, usePathname } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -20,7 +21,15 @@ const formSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 })
 
-export function LoginForm() {
+interface LoginFormProps {
+  onLoginSuccess?: () => void;
+}
+
+export function LoginForm({ onLoginSuccess }: LoginFormProps) {
+  const { login } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,9 +38,38 @@ export function LoginForm() {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Handle login logic here
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Login failed');
+      }
+
+      const data = await response.json();
+      await login(data.token, data.user);
+      
+      // Call the success callback if provided
+      onLoginSuccess?.();
+      
+      router.refresh();
+      
+      if (pathname === '/login') {
+        router.push('/');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      form.setError("root", { 
+        message: err instanceof Error ? err.message : "Login failed" 
+      });
+    }
   }
 
   return (
@@ -74,6 +112,11 @@ export function LoginForm() {
               </FormItem>
             )}
           />
+          {form.formState.errors.root && (
+            <div className="text-red-500 text-sm">
+              {form.formState.errors.root.message}
+            </div>
+          )}
           <Button type="submit" className="w-full">
             Sign in
           </Button>

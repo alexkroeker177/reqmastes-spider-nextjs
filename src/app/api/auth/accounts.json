@@ -1,25 +1,9 @@
 {
-    "users": [
-        {
-        "username": "example_user",
-        "password": "hashed_password",
-        "email": "user@example.com"
-      },
-      {
-        "username": "axelderg",
-        "password": "$2a$10$mSIP/XEatrj13b0YobxB/uTtAAdXCZzoLa24paSha5izx.2pv5FWy",
-        "email": "a@web.de"
-      },
-      {
-        "username": "testuser",
-        "password": "$2a$10$oRwZVt6MrTz8kXELG4PMVecYKmTi1EfX3bECK/9fW6joCLRICc2oe",
-        "email": "test@test.de"
-      },
-      {
-        "username": "testuser1",
-        "password": "$2a$10$FNB69BP7dKU9jLPBxmO.JuPApcnqO0.1pm5Xsqwo6ppxl.c14UYX6",
-        "email": "test1@test.de"
-      }
-    ]
-    
+  "users": [
+    {
+      "username": "reqmasters",
+      "password": "$2a$10$/SDW5qViqoHRKB6eVUO/tugLIGtW7T22t0e3RwsvJ3hcNENAVcGzG", 
+      "email": "marketing@reqmastes.de"
+    }
+  ]
 }

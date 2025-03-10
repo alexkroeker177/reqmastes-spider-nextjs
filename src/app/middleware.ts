@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { jwtVerify } from 'jose'
 
 // Define public routes that don't need authentication
-const publicRoutes = ['/login', '/register', '/api/auth/login', '/api/auth/register']
+const publicRoutes = ['/', '/login', '/register', '/api/auth/login', '/api/auth/register']
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
