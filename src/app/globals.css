@@ -26,11 +26,11 @@
     --radius: 0.5rem;
 
     /* Chart Colors - Extended Palette (Darker) */
-    --chart-1: 210 85% 40%;   /* Darker Blue */
-    --chart-2: 145 85% 35%;   /* Darker Green */
-    --chart-3: 0 85% 40%;     /* Darker Red */
-    --chart-4: 280 85% 35%;   /* Darker Purple */
-    --chart-5: 45 85% 40%;    /* Darker Orange */
+    --chart-1: 12 76% 61%;   /* Darker Blue */
+    --chart-2: 173 58% 39%;   /* Darker Green */
+    --chart-3: 197 37% 24%;     /* Darker Red */
+    --chart-4: 43 74% 66%;   /* Darker Purple */
+    --chart-5: 27 87% 67%;    /* Darker Orange */
     --chart-6: 170 85% 35%;   /* Darker Teal */
     --chart-7: 330 85% 40%;   /* Darker Pink */
     --chart-8: 240 85% 35%;   /* Darker Indigo */
@@ -76,11 +76,11 @@
     --radius: 0.5rem;
 
     /* Chart Colors - Extended Palette (Dark mode - slightly lighter but still rich) */
-    --chart-1: 210 70% 55%;
-    --chart-2: 145 70% 50%;
-    --chart-3: 0 70% 55%;
-    --chart-4: 280 70% 50%;
-    --chart-5: 45 70% 55%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
     --chart-6: 170 70% 50%;
     --chart-7: 330 70% 55%;
     --chart-8: 240 70% 50%;
