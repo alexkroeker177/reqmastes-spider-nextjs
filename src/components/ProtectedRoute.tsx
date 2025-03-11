@@ -1,7 +1,7 @@
 // components/ProtectedRoute.tsx
 "use client"
 
-import { useAuth } from "@/app/context/auth"
+import { useAuth } from "../app/context/auth"
 import { useRouter, usePathname } from "next/navigation"
 import { useEffect } from "react"
 import { toast } from "sonner"

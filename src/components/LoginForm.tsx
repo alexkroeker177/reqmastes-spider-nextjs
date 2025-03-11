@@ -1,7 +1,7 @@
 'use client'
 
 import { z } from "zod"
-import { useAuth } from "@/app/context/auth"
+import { useAuth } from "../app/context/auth"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { Button } from "./ui/button"
