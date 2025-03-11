@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { PersonioClient } from '@/lib/personio'
+import { PersonioClient } from '../../../../lib/personio'
 
 // Initialize Personio client with environment variables
 const personioClient = new PersonioClient({

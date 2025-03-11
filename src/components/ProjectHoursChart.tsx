@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Label, Legend, Tooltip } from
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { TrendingUp, RefreshCw, Calendar } from 'lucide-react';
 import { ScrollArea } from "../components/ui/scroll-area";
-import { getClientCache, setClientCache, clearClientCache, CACHE_DURATIONS } from '@/lib/clientCache';
+import { getClientCache, setClientCache, clearClientCache, CACHE_DURATIONS } from '../lib/clientCache';
 import { Button } from '../components/ui/button';
 import { MonthYearPicker } from '../components/ui/month-year-picker';
 import { format, startOfMonth } from 'date-fns';

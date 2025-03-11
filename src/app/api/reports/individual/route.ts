@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PersonioClient } from '@/lib/personio';
+import { PersonioClient } from '../../../../lib/personio';
 import { renderToBuffer } from '@react-pdf/renderer';
 import { Workbook } from 'exceljs';
 import path from 'path';

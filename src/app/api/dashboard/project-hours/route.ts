@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PersonioClient } from '@/lib/personio';
+import { PersonioClient } from '../../../../lib/personio';
 import { startOfMonth, endOfMonth, format, parse } from 'date-fns';
-import { getCachedData, setCachedData, CACHE_DURATIONS } from '@/lib/cache';
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../../../../lib/cache';
 
 export async function GET(req: NextRequest) {
   try {

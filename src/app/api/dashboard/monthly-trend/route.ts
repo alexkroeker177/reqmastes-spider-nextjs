@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PersonioClient } from '@/lib/personio';
+import { PersonioClient } from '../../../../lib/personio';
 import { format, subMonths, startOfMonth, endOfMonth, isSameMonth } from 'date-fns';
 import { de } from 'date-fns/locale';
-import { getCachedData, setCachedData, CACHE_DURATIONS } from '@/lib/cache';
+import { getCachedData, setCachedData, CACHE_DURATIONS } from '../../../../lib/cache';
 
 // Create separate cache keys for each month to allow different expiration times
 const getMonthCacheKey = (monthIndex: number) => `monthly-trend-month-${monthIndex}`;

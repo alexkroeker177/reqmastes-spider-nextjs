@@ -1,6 +1,6 @@
 'use client'
 
-import { AuthProvider } from '@/app/context/auth'
+import { AuthProvider } from '../app/context/auth'
 import { ProtectedRoute } from "../components/ProtectedRoute"
 import Navigation from '../components/Navigation'
 import { usePathname } from 'next/navigation'
