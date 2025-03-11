@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PersonioClient } from '@/lib/personio';
 import { renderToBuffer } from '@react-pdf/renderer';
-import ProjectReport from '@/components/ProjectReport';
+import ProjectReport from '../../../../components/ProjectReport';
 import React from 'react';
 import { endOfMonth, startOfMonth, eachDayOfInterval } from 'date-fns';
 

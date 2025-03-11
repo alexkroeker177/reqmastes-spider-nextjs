@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PersonioClient } from '@/lib/personio';
 import { renderToBuffer } from '@react-pdf/renderer';
-import MonthlyReport from '@/components/MonthlyReport';
+import MonthlyReport from '../../../../components/MonthlyReport';
 import React from 'react';
 
 export async function POST(req: NextRequest) {

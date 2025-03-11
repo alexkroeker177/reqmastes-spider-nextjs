@@ -2,8 +2,8 @@
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { format, startOfMonth, setMonth, setYear } from 'date-fns'
-import { Button } from '@/components/ui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Button } from '../../components/ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select'
 
 interface MonthYearPickerProps {
   value?: Date  

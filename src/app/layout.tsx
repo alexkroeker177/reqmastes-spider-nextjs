@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { LayoutContent } from '@/components/LayoutContent'
+import { LayoutContent } from '../components/LayoutContent'
 
 export const metadata: Metadata = {
   title: 'Reqmaster Spider',

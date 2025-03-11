@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Label, Legend, Tooltip } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { TrendingUp, RefreshCw, Calendar } from 'lucide-react';
 import { ScrollArea } from "../components/ui/scroll-area";
 import { getClientCache, setClientCache, clearClientCache, CACHE_DURATIONS } from '@/lib/clientCache';

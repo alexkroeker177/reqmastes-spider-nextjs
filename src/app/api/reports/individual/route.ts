@@ -4,7 +4,7 @@ import { renderToBuffer } from '@react-pdf/renderer';
 import { Workbook } from 'exceljs';
 import path from 'path';
 import fs from 'fs/promises';
-import IndividualReport from '@/components/IndividualReport';
+import IndividualReport from '../../../../components/IndividualReport';
 import React from 'react';
 import { format } from 'date-fns';
 import { Document } from '@react-pdf/renderer';

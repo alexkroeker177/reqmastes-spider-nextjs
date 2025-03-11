@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../components/ui/card';
 import { format, subMonths } from 'date-fns';
 import { getClientCache, setClientCache, clearClientCache, CACHE_DURATIONS } from '@/lib/clientCache';
-import { Button } from '@/components/ui/button';
+import { Button } from '../components/ui/button';
 import { RefreshCw } from 'lucide-react';
 
 interface MonthlyData {
