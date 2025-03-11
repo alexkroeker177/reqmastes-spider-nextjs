@@ -1,8 +1,8 @@
 'use client';
 
-import { ProtectedRoute } from '@/components/ProtectedRoute';
-import { ProjectHoursChart } from '@/components/ProjectHoursChart';
-import { MonthlyTrendChart } from '@/components/MonthlyTrendChart';
+import { ProtectedRoute } from '../../components/ProtectedRoute';
+import { ProjectHoursChart } from '../../components/ProjectHoursChart';
+import { MonthlyTrendChart } from '../../components/MonthlyTrendChart';
 
 export default function DashboardPage() {
   return (
