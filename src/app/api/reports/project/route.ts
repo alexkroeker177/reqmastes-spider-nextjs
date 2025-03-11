@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PersonioClient } from '@/lib/personio';
-import { renderToStream } from '@react-pdf/renderer';
+import { renderToBuffer } from '@react-pdf/renderer';
 import ProjectReport from '@/components/ProjectReport';
 import React from 'react';
 import { endOfMonth, startOfMonth, eachDayOfInterval } from 'date-fns';
@@ -101,24 +101,18 @@ export async function POST(req: NextRequest) {
     });
 
     // Generate PDF
-    const MyDocument = React.createElement(ProjectReport, {
+    const reportProps = {
       projects: projectData,
       startDate: monthStart,
       endDate: monthEnd,
       totalHoursPerDay,
       totalMonthHours,
       daysInMonth,
-    });
+    };
 
-    // Create PDF stream
-    const stream = await renderToStream(MyDocument);
-    const chunks: Uint8Array[] = [];
-
-    for await (const chunk of stream) {
-      chunks.push(chunk);
-    }
-
-    const pdfBuffer = Buffer.concat(chunks);
+    // Create PDF buffer directly using the component
+    // @ts-expect-error - Known type issue with react-pdf
+    const pdfBuffer = await renderToBuffer(React.createElement(ProjectReport, reportProps));
 
     return new NextResponse(pdfBuffer, {
       headers: {

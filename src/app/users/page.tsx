@@ -12,7 +12,7 @@ async function getUsers() {
         <h2 className="text-2xl font-bold mb-4">Users</h2>
         <ul className="space-y-2">
           {users.map((user: any) => (
-            <div>
+            <div key={user.id}>
               
               <li>
                 {user}

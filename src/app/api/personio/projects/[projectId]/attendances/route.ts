@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { PersonioClient } from '@/lib/personio'
-import { cookies } from 'next/headers'
 
 // Initialize Personio client with environment variables
 const personioClient = new PersonioClient({
@@ -8,15 +7,16 @@ const personioClient = new PersonioClient({
   clientSecret: process.env.PERSONIO_CLIENT_SECRET!,
 });
 
-export async function GET(
-  request: Request,
-  { params }: { params: { projectId: string } }
-) {
+export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url)
-    const startDate = searchParams.get('startDate')
-    const endDate = searchParams.get('endDate')
-    const confirmed = searchParams.get('confirmed') === 'true'
+    // Get projectId from the URL path
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const projectId = pathParts[pathParts.indexOf('projects') + 1];
+    
+    const startDate = url.searchParams.get('startDate')
+    const endDate = url.searchParams.get('endDate')
+    const confirmed = url.searchParams.get('confirmed') === 'true'
 
     // Validate required parameters
     if (!startDate || !endDate) {
@@ -37,7 +37,7 @@ export async function GET(
 
     // Get attendances using the new PersonioClient
     const attendances = await personioClient.getAttendances(
-      parseInt(params.projectId),
+      parseInt(projectId),
       startDate,
       endDate,
       confirmed

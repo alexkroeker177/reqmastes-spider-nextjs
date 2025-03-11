@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Label, Legend, Tooltip } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { TrendingUp, RefreshCw, Calendar } from 'lucide-react';
@@ -60,7 +60,7 @@ export function ProjectHoursChart() {
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date>(() => startOfMonth(new Date()));
 
-  const fetchProjectHours = async (skipCache = false) => {
+  const fetchProjectHours = useCallback(async (skipCache = false) => {
     try {
       setIsRefreshing(true);
       
@@ -101,11 +101,11 @@ export function ProjectHoursChart() {
       setLoading(false);
       setIsRefreshing(false);
     }
-  };
+  }, [selectedDate]);
 
   useEffect(() => {
     fetchProjectHours();
-  }, [selectedDate]);
+  }, [fetchProjectHours]);
 
   const handleDateChange = (date: Date | undefined) => {
     if (date) {

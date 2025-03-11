@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PersonioClient } from '@/lib/personio';
-import { renderToStream } from '@react-pdf/renderer';
+import { renderToBuffer } from '@react-pdf/renderer';
 import { Workbook } from 'exceljs';
 import path from 'path';
 import fs from 'fs/promises';
@@ -182,18 +182,7 @@ export async function POST(req: NextRequest) {
 
       try {
         console.log('Starting PDF generation...');
-        const stream = await renderToStream(MyDocument);
-        console.log('PDF stream created successfully');
-        
-        const chunks: Uint8Array[] = [];
-        for await (const chunk of stream) {
-          if (chunk instanceof Uint8Array) {
-            chunks.push(chunk);
-          }
-        }
-        console.log(`Collected ${chunks.length} chunks`);
-
-        const pdfBuffer = Buffer.concat(chunks);
+        const pdfBuffer = await renderToBuffer(MyDocument);
         console.log('PDF buffer created successfully, size:', pdfBuffer.length);
 
         return new NextResponse(pdfBuffer, {

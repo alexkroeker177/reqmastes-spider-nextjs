@@ -108,6 +108,7 @@ const IndividualReport: React.FC<IndividualReportProps> = ({
           <Text>Monat: {month}</Text>
         </View>
       </View>
+      {/* eslint-disable-next-line jsx-a11y/alt-text */}
       <Image 
         style={styles.logo}
         src="https://i.postimg.cc/DwGcwTyn/Logo-complete-light-background.png"

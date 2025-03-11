@@ -30,8 +30,9 @@ export async function GET(req: NextRequest) {
     const currentDate = new Date();
     
     // Process each month, potentially in parallel
+    // Start from 1 month ago (index 1) to 6 months ago (index 6)
     const monthlyDataPromises = Array.from({ length: 6 }, async (_, i) => {
-      const monthIndex = 5 - i; // 5 = oldest month, 0 = current month
+      const monthIndex = i + 1; // 1 = previous month, 6 = six months ago
       const monthDate = subMonths(currentDate, monthIndex);
       
       // Check if we have cached data for this specific month
@@ -44,10 +45,7 @@ export async function GET(req: NextRequest) {
       
       // Determine appropriate cache duration based on month age
       let cacheDuration;
-      if (monthIndex === 0) {
-        // Current month - shorter cache
-        cacheDuration = CACHE_DURATIONS.CURRENT_MONTH;
-      } else if (monthIndex === 1) {
+      if (monthIndex === 1) {
         // Previous month - medium cache
         cacheDuration = CACHE_DURATIONS.PREVIOUS_MONTH;
       } else {
@@ -88,10 +86,13 @@ export async function GET(req: NextRequest) {
     // Wait for all months to be processed
     const monthlyData = await Promise.all(monthlyDataPromises);
     
+    // Reverse the array to have the most recent month first
+    const sortedMonthlyData = monthlyData.reverse();
+    
     // Cache the combined result with a shorter duration
-    setCachedData(COMBINED_CACHE_KEY, monthlyData, CACHE_DURATIONS.CURRENT_MONTH);
+    setCachedData(COMBINED_CACHE_KEY, sortedMonthlyData, CACHE_DURATIONS.CURRENT_MONTH);
 
-    return NextResponse.json(monthlyData);
+    return NextResponse.json(sortedMonthlyData);
   } catch (error) {
     console.error('Error fetching monthly trend:', error);
     return NextResponse.json(

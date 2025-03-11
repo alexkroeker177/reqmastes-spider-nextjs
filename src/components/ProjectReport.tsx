@@ -140,6 +140,7 @@ const ProjectReport: React.FC<ProjectReportProps> = ({
       <Page size="A2" style={styles.page}>
         <View style={styles.header}>
           <Text style={styles.title}>Projekterfassung</Text>
+          {/* eslint-disable-next-line jsx-a11y/alt-text */}
           <Image 
             style={styles.logo}
             src="https://i.postimg.cc/DwGcwTyn/Logo-complete-light-background.png"
