@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { UserCircle, BarChart2, Layout, House } from 'lucide-react';
 import Image from 'next/image';
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { LoginForm } from '@/components/ui/loginform';
-import { useAuth } from "@/app/context/auth";
+import { Popover, PopoverContent, PopoverTrigger } from "../components/ui/popover";
+import { LoginForm } from '../components/ui/loginform';
+import { useAuth } from "../app/context/auth";
 
 export default function Navigation() {
   const pathname = usePathname();

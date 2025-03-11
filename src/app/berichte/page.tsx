@@ -2,17 +2,17 @@
 
 import * as React from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "../../components/ui/card";
-import { DatePickerWithRange } from "@/components/ui/datepickerwithrange"
-import { FancyMultiSelect } from "@/components/ui/multiselect"
-import { Button } from "@/components/ui/button"
+import { DatePickerWithRange } from "../../components/ui/datepickerwithrange"
+import { FancyMultiSelect } from "../../components/ui/multiselect"
+import { Button } from "../../components/ui/button"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { MonthYearPicker } from "@/components/ui/month-year-picker"
+} from "../../components/ui/select"
+import { MonthYearPicker } from "../../components/ui/month-year-picker"
 import { FileText, Download } from "lucide-react"
 import { startOfMonth, endOfMonth, format } from 'date-fns'
 

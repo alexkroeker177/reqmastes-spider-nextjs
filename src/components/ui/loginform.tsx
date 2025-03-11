@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { useAuth } from '@/app/context/auth'
 import { useRouter, usePathname } from 'next/navigation'
-import { Button } from "@/components/ui/button"
+import { Button } from "../ui/button"
 import {
   Form,
   FormControl,
@@ -13,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+} from "../ui/form"
+import { Input } from "../ui/input"
 
 const formSchema = z.object({
   username: z.string().min(3, "Username must be at least 3 characters"),

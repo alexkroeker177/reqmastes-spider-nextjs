@@ -3,13 +3,13 @@
 import * as React from "react";
 import { X } from "lucide-react";
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from "../ui/badge";
 import {
   Command,
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@/components/ui/command";
+} from "../ui/command";
 import { Command as CommandPrimitive } from "cmdk";
 
 
