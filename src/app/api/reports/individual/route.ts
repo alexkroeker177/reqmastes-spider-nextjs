@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PersonioClient } from '../../../../lib/personio';
 import { renderToBuffer } from '@react-pdf/renderer';
-import { Workbook } from 'exceljs';
+import { Workbook, Worksheet } from 'exceljs';
 import path from 'path';
 import fs from 'fs/promises';
 import IndividualReport from '../../../../components/IndividualReport';
@@ -11,6 +11,10 @@ import { Document } from '@react-pdf/renderer';
 
 const TEMPLATE_MAPPING = {
   '454242': 'Cariad_Template.xlsx',
+  '2023124': 'Template_Scheuerle.xlsx',
+  '2023129': 'Template_Scheuerle.xlsx',
+  '2050275': 'Template_Scheuerle.xlsx',
+  '2050276': 'Template_Scheuerle.xlsx',
   'default': 'Timesheet_Siemens_Vorlage.xlsx'
 };
 
@@ -106,31 +110,93 @@ export async function POST(req: NextRequest) {
       const workbook = new Workbook();
       
       try {
-        // Create a new workbook instead of reading template
-        const sheet = workbook.addWorksheet('Report');
+        let sheet!: Worksheet;
         
-        // Set up basic structure
-        sheet.columns = [
-          { header: 'Datum', key: 'date', width: 15 },
-          { header: 'Stunden', key: 'hours', width: 10 },
-          { header: 'Kommentare', key: 'comments', width: 50 }
-        ];
+        if (templateName === 'Template_Scheuerle.xlsx') {
+          // Read the template file for Scheuerle projects
+          await workbook.xlsx.readFile(templatePath);
+          const templateSheet = workbook.getWorksheet(1);
+          if (!templateSheet) {
+            throw new Error('Template worksheet not found');
+          }
+          sheet = templateSheet;
+          
+          // Add month and year
+          const monthYear = new Date(startDate);
+          sheet.getCell('C6').value = format(monthYear, 'MMMM');
+          sheet.getCell('D6').value = format(monthYear, 'yyyy');
 
-        // Add data
-        const rows = Array.from(daysData.values()).map(data => ({
-          date: data.date,
-          hours: data.hours,
-          comments: data.comments.filter((c: string) => c).join(', ')
-        }));
+          // Get the first day of the month
+          const firstDay = new Date(monthYear.getFullYear(), monthYear.getMonth(), 1);
+          const daysInMonth = new Date(monthYear.getFullYear(), monthYear.getMonth() + 1, 0).getDate();
 
-        sheet.addRows(rows);
+          // German day names
+          const dayNames = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
 
-        // Add total row
-        sheet.addRow(['Total', totalHours, '']);
+          // Fill days from row 8 to 38
+          for (let i = 0; i < 31; i++) {
+            const currentDate = new Date(firstDay);
+            currentDate.setDate(firstDay.getDate() + i);
+            
+            if (i < daysInMonth) {
+              const rowNum = 8 + i;
+              const dayOfWeek = currentDate.getDay();
+              
+              // Add day name
+              sheet.getCell(`B${rowNum}`).value = dayNames[dayOfWeek === 0 ? 6 : dayOfWeek - 1];
+              // Add date number (padded with zero if needed)
+              sheet.getCell(`C${rowNum}`).value = String(currentDate.getDate()).padStart(2, '0');
+              
+              // Add hours and comments if we have data for this day
+              const dayData = daysData.get(currentDate.getDate());
+              if (dayData) {
+                sheet.getCell(`D${rowNum}`).value = dayData.hours;
+                sheet.getCell(`E${rowNum}`).value = dayData.comments.filter((c: string) => c).join(', ');
+              }
+            } else {
+              // Clear remaining rows if month has less than 31 days
+              sheet.getCell(`B${8 + i}`).value = '';
+              sheet.getCell(`C${8 + i}`).value = '';
+              sheet.getCell(`D${8 + i}`).value = '';
+              sheet.getCell(`E${8 + i}`).value = '';
+            }
+          }
+        } else {
+          // Create a new workbook for projects without a template
+          sheet = workbook.addWorksheet('Report');
+          
+          // Set up basic structure
+          sheet.columns = [
+            { header: 'Datum', key: 'date', width: 15 },
+            { header: 'Stunden', key: 'hours', width: 10 },
+            { header: 'Kommentare', key: 'comments', width: 50 }
+          ];
 
-        // Style the worksheet
-        sheet.getRow(1).font = { bold: true };
-        sheet.getRow(sheet.rowCount).font = { bold: true };
+          // Add data
+          const rows = Array.from(daysData.values()).map(data => ({
+            date: data.date,
+            hours: data.hours,
+            comments: data.comments.filter((c: string) => c).join(', ')
+          }));
+
+          sheet.addRows(rows);
+
+          // Add total row
+          sheet.addRow(['Total', totalHours, '']);
+
+          // Style the worksheet
+          sheet.getRow(1).font = { bold: true };
+          sheet.getRow(sheet.rowCount).font = { bold: true };
+        }
+
+        // Set column widths for Scheuerle template
+        if (templateName === 'Template_Scheuerle.xlsx') {
+          sheet.getColumn('A').width = 5;  // Narrow column
+          sheet.getColumn('B').width = 11;  // Day names (Mo, Di, etc)
+          sheet.getColumn('C').width = 25;  // Day numbers
+          sheet.getColumn('D').width = 10; // Hours
+          sheet.getColumn('E').width = 100; // Comments - wide column
+        }
 
         console.log('Worksheet created successfully');
       } catch (error) {
